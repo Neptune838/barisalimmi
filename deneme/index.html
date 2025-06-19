@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Barışalım mı?</title>
+<style>
+  body {
+    margin:0; padding:0; overflow:hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #fff0f5;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    user-select: none;
+    position: relative;
+  }
+  #message {
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    text-align: center;
+    color: #d6336c;
+    font-weight: bold;
+  }
+  button {
+    font-size: 1.6rem;
+    padding: 12px 28px;
+    margin: 10px;
+    position: absolute;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    user-select: none;
+  }
+  #yes {
+    background-color: #4CAF50;
+    color: white;
+    left: 40%;
+    top: 60%;
+    transform-origin: center center;
+    transform: scale(1);
+  }
+  #no {
+    background-color: #f44336;
+    color: white;
+    left: 55%;
+    top: 60%;
+  }
+
+  /* Havai fişek efektlerinin konumu */
+  #fireworks-container {
+    position: fixed;
+    pointer-events: none;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    overflow: visible;
+    z-index: 9999;
+  }
+</style>
+</head>
+<body>
+
+<div id="message">Barışalım mı? 🥺</div>
+<button id="yes">Evet</button>
+<button id="no">Hayır</button>
+
+<div id="fireworks-container"></div>
+
+<audio id="myAudio" src="https://o.uguu.se/xlMqEmvb.mp3" preload="auto"></audio>
+
+<script>
+// Butonlar ve mesaj
+const yes = document.getElementById('yes');
+const no = document.getElementById('no');
+const msg = document.getElementById('message');
+const audio = document.getElementById('myAudio');
+
+let scale = 1;
+
+// Hayır butonu kaçma fonksiyonu
+no.addEventListener('mouseover', () => {
+  const x = Math.random() * (window.innerWidth - no.offsetWidth);
+  const y = Math.random() * (window.innerHeight - no.offsetHeight);
+  no.style.left = `${x}px`;
+  no.style.top = `${y}px`;
+
+  scale += 0.1;
+  yes.style.transform = `scale(${scale})`;
+
+  if (scale < 1.3) {
+    msg.textContent = "Başka çaren yok 😈";
+  } else if (scale < 1.6) {
+    msg.textContent = "Kaçamazsın 😎";
+  } else if (scale < 1.9) {
+    msg.textContent = "Hadi ama 🥺";
+  } else {
+    msg.textContent = "Seni bekliyorum... ❤️";
+  }
+});
+
+// Evet butonuna basınca
+yes.addEventListener('click', () => {
+  // Butonları gizle
+  yes.style.display = 'none';
+  no.style.display = 'none';
+
+  // Mesajı değiştir
+  msg.textContent = "OLEYEEEEEY SENİ ÇOOOK SEVİYORUMMMM ❤️🎉";
+  msg.style.fontSize = '3rem';
+  msg.style.color = '#e91e63';
+
+  // Müziği başlat
+  audio.play();
+
+  // Havai fişek başlat
+  startFireworks();
+});
+
+// Basit havai fişek animasyonu
+
+function createFireworkParticle(x, y, color) {
+  const particle = document.createElement('div');
+  particle.style.position = 'fixed';
+  particle.style.left = `${x}px`;
+  particle.style.top = `${y}px`;
+  particle.style.width = '6px';
+  particle.style.height = '6px';
+  particle.style.borderRadius = '50%';
+  particle.style.backgroundColor = color;
+  particle.style.pointerEvents = 'none';
+  particle.style.opacity = '1';
+  particle.style.zIndex = '9999';
+  particle.style.transition = 'transform 1s ease-out, opacity 1s ease-out';
+
+  document.getElementById('fireworks-container').appendChild(particle);
+
+  // Hareket ettir
+  const angle = Math.random() * 2 * Math.PI;
+  const distance = 80 + Math.random() * 40;
+  const translateX = Math.cos(angle) * distance;
+  const translateY = Math.sin(angle) * distance;
+
+  setTimeout(() => {
+    particle.style.transform = `translate(${translateX}px, ${translateY}px)`;
+    particle.style.opacity = '0';
+  }, 20);
+
+  setTimeout(() => {
+    particle.remove();
+  }, 1020);
+}
+
+function startFireworks() {
+  const container = document.getElementById('fireworks-container');
+  const colors = ['#e91e63', '#f44336', '#4caf50', '#2196f3', '#ffeb3b'];
+
+  // 50 havai fişek patlat
+  let count = 0;
+  const interval = setInterval(() => {
+    const x = window.innerWidth * Math.random();
+    const y = window.innerHeight * Math.random();
+    const color = colors[Math.floor(Math.random() * colors.length)];
+
+    createFireworkParticle(x, y, color);
+
+    count++;
+    if (count > 50) {
+      clearInterval(interval);
+    }
+  }, 100);
+}
+</script>
+
+</body>
+</html>
