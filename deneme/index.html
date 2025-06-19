@@ -50,7 +50,6 @@
     top: 60%;
   }
 
-  /* Havai fişek efektlerinin konumu */
   #fireworks-container {
     position: fixed;
     pointer-events: none;
@@ -68,18 +67,13 @@
 
 <div id="fireworks-container"></div>
 
-<audio id="myAudio" src="sakiler_asik_kaderi.mp3" preload="auto"></audio>
-
 <script>
-// Butonlar ve mesaj
 const yes = document.getElementById('yes');
 const no = document.getElementById('no');
 const msg = document.getElementById('message');
-const audio = document.getElementById('myAudio');
 
 let scale = 1;
 
-// Hayır butonu kaçma fonksiyonu
 no.addEventListener('mouseover', () => {
   const x = Math.random() * (window.innerWidth - no.offsetWidth);
   const y = Math.random() * (window.innerHeight - no.offsetHeight);
@@ -100,25 +94,16 @@ no.addEventListener('mouseover', () => {
   }
 });
 
-// Evet butonuna basınca
 yes.addEventListener('click', () => {
-  // Butonları gizle
   yes.style.display = 'none';
   no.style.display = 'none';
 
-  // Mesajı değiştir
   msg.textContent = "OLEYEEEEEY SENİ ÇOOOK SEVİYORUMMMM ❤️🎉";
   msg.style.fontSize = '3rem';
   msg.style.color = '#e91e63';
 
-  // Müziği başlat
-  audio.play();
-
-  // Havai fişek başlat
   startFireworks();
 });
-
-// Basit havai fişek animasyonu
 
 function createFireworkParticle(x, y, color) {
   const particle = document.createElement('div');
@@ -136,7 +121,6 @@ function createFireworkParticle(x, y, color) {
 
   document.getElementById('fireworks-container').appendChild(particle);
 
-  // Hareket ettir
   const angle = Math.random() * 2 * Math.PI;
   const distance = 80 + Math.random() * 40;
   const translateX = Math.cos(angle) * distance;
@@ -153,10 +137,8 @@ function createFireworkParticle(x, y, color) {
 }
 
 function startFireworks() {
-  const container = document.getElementById('fireworks-container');
   const colors = ['#e91e63', '#f44336', '#4caf50', '#2196f3', '#ffeb3b'];
 
-  // 50 havai fişek patlat
   let count = 0;
   const interval = setInterval(() => {
     const x = window.innerWidth * Math.random();
